@@ -2,6 +2,8 @@ import React, {ChangeEvent} from "react";
 import {filterValuesType} from "./App";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
+import {Button, Checkbox, IconButton} from "@mui/material";
+import {Delete} from "@mui/icons-material";
 
 export type propsType = {
     id: string
@@ -32,7 +34,7 @@ export const TodoList = (props: propsType) => {
     const onRemoveTodoList = () => {
         props.removeTodoList(props.id)
     }
-    const onChangeTodoListTitle = (newTitle:string) => {
+    const onChangeTodoListTitle = (newTitle: string) => {
         props.onChangeTodoListTitle(props.id, newTitle)
     }
 
@@ -46,10 +48,12 @@ export const TodoList = (props: propsType) => {
                 title={props.title}
                 onChange={onChangeTodoListTitle}
             />
-                <button onClick={onRemoveTodoList}>x</button>
+                <IconButton aria-label="delete" size="small" onClick={onRemoveTodoList}>
+                    <Delete fontSize="inherit"/>
+                </IconButton>
             </h3>
-            <AddItemForm addItem={addTask} />
-            <ul>
+            <AddItemForm addItem={addTask}/>
+            <div>
                 {
                     props.task.map(t => {
                         const removeTask = () => {
@@ -58,32 +62,38 @@ export const TodoList = (props: propsType) => {
                         const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
                             props.changeTaskStatus(t.id, e.currentTarget.checked, props.id)
                         }
-                        const onChangeTitle = (newTitle:string) => {
+                        const onChangeTitle = (newTitle: string) => {
                             props.changeTaskTitle(t.id, newTitle, props.id)
                         }
 
-                        return <li key={t.id} className={t.isDone ? "isdone" : ""}>
-                            <input type="checkbox"
+                        return <div key={t.id} className={t.isDone ? "isdone" : ""}>
+                            <Checkbox
                                    checked={t.isDone}
                                    onChange={onChangeHandler}
                             />
                             <EditableSpan
                                 title={t.title}
-                                onChange={onChangeTitle} />
-                            <button onClick={removeTask}>x</button>
-                        </li>
+                                onChange={onChangeTitle}/>
+                            <IconButton aria-label="delete" size="small" onClick={removeTask}>
+                                <Delete fontSize="inherit"/>
+                            </IconButton>
+                        </div>
                     })
-                }
-            </ul>
+                }yar
+            </div>
             <div>
-                <button className={props.filter === "all" ? "active-filter" : ""} onClick={onAllClickHandler}>All
-                </button>
-                <button className={props.filter === "active" ? "active-filter" : ""}
+                <Button variant={props.filter === "all" ? "contained" : "text"}
+                        color={'inherit'}
+                        onClick={onAllClickHandler}>All
+                </Button>
+                <Button variant={props.filter === "active" ? "contained" : "text"}
+                        color={'primary'}
                         onClick={onActiveClickHandler}>Active
-                </button>
-                <button className={props.filter === "complited" ? "active-filter" : ""}
+                </Button>
+                <Button variant={props.filter === "complited" ? "contained" : "text"}
+                        color={'error'}
                         onClick={onComplitedClickHandler}>Completed
-                </button>
+                </Button>
             </div>
         </div>
     )
