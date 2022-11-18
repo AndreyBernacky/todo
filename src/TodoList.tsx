@@ -79,7 +79,7 @@ export const TodoList = (props: propsType) => {
                             </IconButton>
                         </div>
                     })
-                }yar
+                }
             </div>
             <div>
                 <Button variant={props.filter === "all" ? "contained" : "text"}
