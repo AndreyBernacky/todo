@@ -25,7 +25,7 @@ export const userReducer = (state: stateType, action: actionType): stateType => 
                 name:action.newName
             }
         default:
-            throw new Error("I don't understand this AT")
+            return state
     }
 
 }
