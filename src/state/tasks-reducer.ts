@@ -30,16 +30,16 @@ type actionsType = removeTaskActionType | changeStatusTaskTitileType |
     removeTodoListActionType
 
 const initialState:tasksStateType = {
-    [todolistId1]: [
-        {id: v1(), title: 'HTML&CSS', isDone: true},
-        {id: v1(), title: 'JS', isDone: true},
-        {id: v1(), title: 'React', isDone: false},
-        {id: v1(), title: 'Redux', isDone: false}
-    ],
-    [todolistId2]: [
-        {id: v1(), title: 'Book', isDone: false},
-        {id: v1(), title: 'Bear', isDone: true}
-    ]
+    // [todolistId1]: [
+    //     {id: v1(), title: 'HTML&CSS', isDone: true},
+    //     {id: v1(), title: 'JS', isDone: true},
+    //     {id: v1(), title: 'React', isDone: false},
+    //     {id: v1(), title: 'Redux', isDone: false}
+    // ],
+    // [todolistId2]: [
+    //     {id: v1(), title: 'Book', isDone: false},
+    //     {id: v1(), title: 'Bear', isDone: true}
+    // ]
 }
 
 
@@ -67,22 +67,18 @@ export const tasksReducer = (state: tasksStateType = initialState, action: actio
             return stateCopy
         }
         case 'CHANGE-TASK-STATUS': {
-            let stateCppy = {...state}
-            const tasks = stateCppy[action.todoListId]
-            const task = tasks.find(t => t.id === action.taskId)
-            if (task) {
-                task.isDone = action.isDone
-            }
-            return stateCppy
+            const tasks = state[action.todoListId]
+            state[action.todoListId] = tasks.map(t => t.id === action.taskId
+            ? {...t, isDone: action.isDone}
+            : t)
+            return ({...state})
         }
         case "CHANGE-TASK-TITLE": {
-            let stateCopy = {...state}
-            const tasks = stateCopy[action.todoListId]
-            const task = tasks.find(t => t.id === action.taskId)
-            if (task) {
-                task.title = action.taskTitle
-            }
-            return stateCopy
+            const tasks = state[action.todoListId]
+            state[action.todoListId] = tasks.map(t => t.id === action.taskId
+                ? {...t, title: action.taskTitle}
+                : t)
+            return ({...state})
         }
         case "ADD-TODOLIST":{
             const stateCopy = {...state}
